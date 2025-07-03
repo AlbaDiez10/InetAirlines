@@ -3,22 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
 import axios from 'axios';
 
+// Componente funcional Registro
 function Registro() {
+  // Estados para los campos del formulario
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
+  // Hook para navegación programática
   const navigate = useNavigate();
 
+  // Maneja el envío del formulario de registro
   const handleRegistro = async (e) => {
     e.preventDefault();
 
+    // Validación simple de campos vacíos
     if (!nombre || !apellido || !email || !contraseña) {
       alert("Por favor complete todos los campos.");
       return;
     }
 
     try {
+      // Envía los datos al backend para registrar el usuario
       const response = await axios.post('http://localhost:3001/api/registro', {
         nombre,
         apellido,
@@ -26,9 +32,10 @@ function Registro() {
         contraseña,
       });
 
+      // Si el registro fue exitoso
       if (response.status === 201) {
         alert('¡Usuario registrado exitosamente!');
-        navigate('/');
+        navigate('/'); // Redirige al inicio
       } else {
         alert('Error en el registro');
       }
@@ -39,10 +46,12 @@ function Registro() {
   };
 
   return (
+    // Centra el formulario vertical y horizontalmente
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Card style={{ width: '26rem', padding: '1.5rem' }}>
         <Card.Body>
           <Card.Title className="mb-4 text-center">Crear Cuenta</Card.Title>
+          {/* Formulario de registro */}
           <Form onSubmit={handleRegistro}>
             <Form.Group controlId="nombre" className="mb-3">
               <Form.Label>Nombre</Form.Label>
@@ -88,6 +97,7 @@ function Registro() {
               />
             </Form.Group>
 
+            {/* Botón para enviar el formulario */}
             <Button variant="success" type="submit" className="w-100">
               Crear Cuenta
             </Button>
